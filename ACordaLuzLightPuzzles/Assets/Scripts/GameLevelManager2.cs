@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class GameLevelManager2 : MonoBehaviour {
 
+	public bool loadLevel = true;
 	public Slide tuto;
 	public Slide levelIntro;
 	public Slide nextLevelMenu;
@@ -14,20 +15,31 @@ public class GameLevelManager2 : MonoBehaviour {
 	public Text levelText;
 
 	int level=0;
+	Color block1;
+	Color block2;
+	Color block3;
+	Color block4;
+
 
 	// Use this for initialization
 	void Start () {
 		
+		block1 = new Color(0.2431373f,0.509804f,0.227451f);
+		block2 = new Color(0f,0.2509804f,0.4862745f);
+		block3 = new Color(0.8247059f,0.522353f,0.0358824f);
+		block4 = new Color(0.3431373f,0.1f,0.2843137f);
+
 		level =  PlayerPrefs.GetInt("OpenLevel");
 		//Debug.Log(level);
 
 		returnButton.SetActive(true);
-
-		if(level==0){
-			StartTuto();
-		}else{
-			OpenLevel(levels[level]);
-		}
+		
+		if(loadLevel)
+			if(level==0){
+				StartTuto();
+			}else{
+				OpenLevel(levels[level]);
+			}
 	}
 	
 	// Update is called once per frame
@@ -36,6 +48,13 @@ public class GameLevelManager2 : MonoBehaviour {
 	}
 
 	public void EndLevel(){
+		//Salvar progresso
+		//Debug.Log(" --> Max level atu = " + PlayerPrefs.GetInt("LastSolvedLevel") + " and " + (level));
+		if(level+2 > PlayerPrefs.GetInt("LastSolvedLevel")){
+			Debug.Log("  #> mUDOU PARA " + (level+2));
+			PlayerPrefs.SetInt("LastSolvedLevel", level+2);
+		}
+
 		if(level < levels.Length - 1)
 			nextLevelMenu.SlideIn();
 		else
@@ -53,12 +72,28 @@ public class GameLevelManager2 : MonoBehaviour {
 	}
 
 	void OpenLevel(GameObject nextLevel){
+		//Spawnar level
 		GameObject newLevel = Instantiate(nextLevel) as GameObject;
 		if(nextLevel != levelInstance)
 			Destroy(levelInstance);
 		levelInstance = newLevel;
-		//nextLevelMenu.SetActive(false);
-		levelText.text = "Nível " + levelInstance.GetComponent<LevelManager>().LevelNumber;
+
+		//Mudar cores
+		Color currentBlock;
+		if(level<=9){
+			currentBlock = block1;
+		}else if(level<=24){ 
+			currentBlock = block2;
+		}else if(level<=39){ 
+			currentBlock = block3;
+		}else{
+			currentBlock = block4;
+		}
+		levelIntro.transform.GetComponent<UnityEngine.UI.Image>().color = currentBlock;
+		nextLevelMenu.transform.GetComponent<UnityEngine.UI.Image>().color = currentBlock;
+
+		//Começar intro
+		levelText.text = "Nível " + (level+1);
 		levelIntro.SlideAppear();
 	}
 
@@ -66,7 +101,6 @@ public class GameLevelManager2 : MonoBehaviour {
 		//GetComponent<ResetTimer>().enabled = true;	
 		// titleScreen.GetComponent<Slide>().SlideOut();
 		//ChangeLevel(levelInstance);
-		Debug.Log("Chegou aqui");
 		tuto.SlideIn();
 	}
 
@@ -77,5 +111,14 @@ public class GameLevelManager2 : MonoBehaviour {
 
 	public void Restart(){
 		Application.LoadLevel("Select");
+	}
+
+	public void RestartLevel(){
+		PlayerPrefs.SetInt("OpenLevel", level);
+		Application.LoadLevel("Game");
+	}
+
+	public void Mute(){
+		SoundController.instance.ToggleMute();
 	}
 }

@@ -73,6 +73,7 @@
     <Compile Include="Assets\Interpolator.cs" />
     <Compile Include="Assets\LevelSelector.cs" />
     <Compile Include="Assets\Scripts\GameLevelManager2.cs" />
+    <Compile Include="Assets\MouseFollowingCursor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

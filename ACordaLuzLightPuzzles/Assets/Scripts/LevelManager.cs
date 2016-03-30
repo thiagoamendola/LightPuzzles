@@ -4,7 +4,6 @@ using System.Collections;
 public class LevelManager : MonoBehaviour {
 	public int LevelNumber;
 	public Switch[] levelSwitches;
-	public GameObject nextLevel;
 	
 	bool gameOver;
 	
@@ -12,7 +11,7 @@ public class LevelManager : MonoBehaviour {
 	void Start () {
 		gameOver = false;
 		//GameObject.Find("!GameLevelsManager").GetComponent<GameLevelsManager>().SetCurrentLevel(this.gameObject);
-
+		//LevelNumber = PlayerPrefs.GetInt("OpenLevel");
 	}
 	
 	// Update is called once per frame
@@ -37,11 +36,6 @@ public class LevelManager : MonoBehaviour {
 				gameOver = true;
 				foreach(MovableObject obj in GetComponentsInChildren<MovableObject>()){
 					obj.SetDraggable(false);
-				}
-				
-				//Salvar progresso
-				if(LevelNumber+1 > PlayerPrefs.GetInt("LastSolvedLevel")){
-					PlayerPrefs.SetInt("LastSolvedLevel", LevelNumber + 1);
 				}
 
 				GameObject.Find("!GameLevelManager").GetComponent<GameLevelManager2>().EndLevel();				

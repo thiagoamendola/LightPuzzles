@@ -12,7 +12,7 @@ public class LevelSelector : MonoBehaviour {
 	SpriteRenderer sprRend;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		btn = GetComponent<Button>();
 		sprRend = GetComponent<SpriteRenderer>();
 
@@ -27,20 +27,23 @@ public class LevelSelector : MonoBehaviour {
 	public void LockLevel(){
 		btn.enabled = false;
 		sprRend.sprite = locked;
+		//Debug.Log("Locked");
 	}
 
 	public void CurrentLevel(){
 		btn.enabled = true;
 		sprRend.sprite = current;
+		//Debug.Log("Current");
 	}
 
 	public void ClearedLevel(){
 		btn.enabled = true;
 		sprRend.sprite = cleared;
+		//Debug.Log("Done");
 	}
 
 	public void LoadLevel(){
-		PlayerPrefs.SetInt("OpenLevel", level);
+		PlayerPrefs.SetInt("OpenLevel", level-1);
 		Application.LoadLevel("Game");
 	}
 }

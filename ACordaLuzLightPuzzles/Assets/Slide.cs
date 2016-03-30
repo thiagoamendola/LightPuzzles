@@ -41,12 +41,11 @@ public class Slide : MonoBehaviour {
 	}
 	
 	public virtual void SlideIn(){
-		Debug.Log("wow");
 		activated = true;
 		progress = 0f;
 		destination = new Vector3(0f, 0f, 0f);
-		Debug.Log(GetComponent<RectTransform>().localPosition);
-		Debug.Log(destination);
+		//Debug.Log(GetComponent<RectTransform>().localPosition);
+		//Debug.Log(destination);
 	}
 	
 	public virtual void SlideOut(){

@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class Button : MonoBehaviour {
+	public bool changeSprites = true;
 	public Sprite normalSprite;
 	public Sprite overSprite;
 	public Sprite pressedSprite;
@@ -37,7 +38,7 @@ public class Button : MonoBehaviour {
 		if(clickFX == null)
 			clickFX = (AudioClip)Resources.Load("Botoes", typeof(AudioClip));
 		
-		if(sprRend!=null)
+		if(sprRend!=null && changeSprites)
 			sprRend.sprite = normalSprite;
 
 		AS = null;
@@ -57,7 +58,7 @@ public class Button : MonoBehaviour {
 		if(temporaryBlockOnClick && pressed){
 			if(time > 5){
 				enabled = true;
-				if(sprRend!=null)
+				if(sprRend!=null && changeSprites)
 					sprRend.sprite = normalSprite;
 				time = 0;
 				pressed = false;
@@ -69,7 +70,7 @@ public class Button : MonoBehaviour {
 	}
     
 	void OnMouseDown(){
-		if(enabled){
+		if(enabled && changeSprites){
 			//Apertou
 			if(sprRend!=null)
 				sprRend.sprite = pressedSprite;
@@ -97,14 +98,14 @@ public class Button : MonoBehaviour {
 	}
 
 	void OnMouseEnter(){
-		if(!pressed && enabled){
+		if(!pressed && enabled && changeSprites){
 			if(sprRend!=null)
 				sprRend.sprite = overSprite;
         }
 	}
 
 	void OnMouseExit(){
-		if(enabled && sprRend!=null){
+		if(enabled && sprRend!=null && changeSprites){
 			if(!pressed){
 				sprRend.sprite = normalSprite;
 	        }else{
@@ -116,7 +117,7 @@ public class Button : MonoBehaviour {
     void OnMouseUp(){
 		if(enabled){
 			pressed = false;
-			if(sprRend!=null)
+			if(sprRend!=null && changeSprites)
 				sprRend.sprite = normalSprite;
 		}
     }

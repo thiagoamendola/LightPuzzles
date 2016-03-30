@@ -28,15 +28,15 @@ public class GameLevelsManager : MonoBehaviour {
 	}
 
 	public void EndLevel(){
-		if(currentLevel.GetComponent<LevelManager>().nextLevel != null)
+/*		if(currentLevel.GetComponent<LevelManager>().nextLevel != null)
 			nextLevelMenu.SlideIn();
 		else
-			itsOver.GetComponent<Slide>().SlideIn();
+			itsOver.GetComponent<Slide>().SlideIn();*/
 	}
 
 	public void NextLevel(){
 		nextLevelMenu.SlideDisappear();
-		ChangeLevel(currentLevel.GetComponent<LevelManager>().nextLevel);
+		//ChangeLevel(currentLevel.GetComponent<LevelManager>().nextLevel);
 	}
 
 	public void StartLevel(){

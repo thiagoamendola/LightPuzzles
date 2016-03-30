@@ -6,6 +6,7 @@ public class SideMenu : MonoBehaviour {
 	public GameObject cog;
 	public Credits credits;
 	public Slide exitMenu;
+	public Button button;
 	
 	public Vector3 openPos;
 	public Vector3 closedPos;
@@ -83,9 +84,13 @@ public class SideMenu : MonoBehaviour {
 		if(open){
 			destination = openPos;
 			cogDestination = openCogPos;
+			if(button!=null)
+				button.enabled = false;
 		}else{
 			destination = closedPos;
 			cogDestination = closedCogPos;
+			if(button!=null)
+				button.enabled = true;
 		}
 
 	}
@@ -100,6 +105,7 @@ public class SideMenu : MonoBehaviour {
 	public void CancelExit(){
 		openExit = false;
 		exitMenu.SlideOut();
+		OnCogClick();
     }
 
 	public void Exit(){

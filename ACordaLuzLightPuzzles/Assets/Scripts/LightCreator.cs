@@ -5,10 +5,11 @@ using System;
 
 public class LightCreator : MonoBehaviour {
 
-	[HideInInspector] public float RAYLENGTH = 25f;
+	float RAYLENGTH = 25f;
 	public int RAYCOUNT;
 	public float RAYMAXSPACING;
 	public float RAYMAXANGLE;
+	public float SKIN = .1f;
 	
 	public bool canLight;	
 	
@@ -28,7 +29,7 @@ public class LightCreator : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		MaxDistPoints = RAYLENGTH * RAYMAXSPACING/5;
+		MaxDistPoints = RAYLENGTH * RAYMAXSPACING/6;
 	}
 	
 	// Update is called once per frame
@@ -43,6 +44,7 @@ public class LightCreator : MonoBehaviour {
 		j=0;
 		
 		if(canLight){
+
 			//Add startPoints
 			reflectionPoints[0] = new Dictionary<int, Vector3>();
 			for(i=0; i<RAYCOUNT; i++){
@@ -53,8 +55,8 @@ public class LightCreator : MonoBehaviour {
 			reflectionPoints[1] = new Dictionary<int, Vector3>();
 			for(i=0; i < endPoints.Length; i++){
 				reflectionPoints[1][i] = endPoints[i];
-			}
-	
+			}			
+
 			//Add reflectPoints
 			for(j=0; j < postReflectPoints.Count; j++){
 				reflectionPoints[j+2] = new Dictionary<int, Vector3>();
@@ -65,23 +67,28 @@ public class LightCreator : MonoBehaviour {
 			}
 	
 			Ray r;		
-			RaycastHit h;
-	
-			for(j=0; j < reflectionPoints.Count-1; j++){	
+			RaycastHit[] hs;
+			
+			//Find switches
+			for(j=0; j < reflectionPoints.Count-1; j++){
 				for(i=0; i<RAYCOUNT; i++){
 					if(reflectionPoints[j].ContainsKey(i) && reflectionPoints[j+1].ContainsKey(i) ){
 						r = new Ray(transform.position + transform.right * reflectionPoints[j][i].x + transform.up * reflectionPoints[j][i].y , 
 						            Quaternion.Euler(0,0,transform.rotation.eulerAngles.z) * (reflectionPoints[j+1][i] - reflectionPoints[j][i]).normalized);
-						h = new RaycastHit();
-						
-						if(Physics.Raycast(r, out h, Mathf.Abs(Vector3.Distance(reflectionPoints[j][i],reflectionPoints[j+1][i])), Switch)){
-							if(CORRECT){
-									h.collider.gameObject.GetComponent<Switch>().React();
-							}else{
-									h.collider.gameObject.GetComponent<Switch>().BlockEnlight();
-							}
+					
+							
+						Vector3 spoint = reflectionPoints[j][i];
+						int count = 0;
+						Vector3 vec3Aux;
+
+						hs = Physics.RaycastAll(r, Mathf.Abs(Vector3.Distance(spoint ,reflectionPoints[j+1][i])), Switch);						
+
+						for(int k=0; k < hs.Length; k++){
+							hs[k].collider.gameObject.GetComponent<Switch>().React();
 						}
+
 					}
+
 				}
 			}
 		}	
@@ -107,30 +114,31 @@ public class LightCreator : MonoBehaviour {
 			for(i=0; i<RAYCOUNT; i++)
 				startPoints[i] =  Vector3.up * RAYMAXSPACING - Vector3.up * spacePerRay * i ;
 			
-			//Encontrar ponto de colisao
+			//=== Encontrar pontos de colisao
 			Ray r;		
 			RaycastHit h;
 			int numReflecs = -1;
-			float angle = transform.rotation.eulerAngles.z;
+			float angle = (transform.rotation.eulerAngles.z) * Mathf.PI/180;		
 			float rotInRay;
 			Vector3 mirrorNormal;
 			endPoints = new Vector3[RAYCOUNT];
 			postReflectPoints = new Dictionary<int, Dictionary<int, Vector3>>();
-			
-			angle *= Mathf.PI/180;		
+
+			//Para cada raio do feixe de luz
 			for(i=0; i<RAYCOUNT; i++){
+				//Setando informações pro raycast
 				//De local pra global
 				rotInRay = RAYMAXANGLE - rotPerRay * i;
 				r = new Ray(transform.position + transform.right * startPoints[i].x + transform.up * startPoints[i].y , 
 				            transform.right * Mathf.Cos(Mathf.Deg2Rad * (rotInRay)) + transform.up * Mathf.Sin(Mathf.Deg2Rad * (rotInRay)));
 				h = new RaycastHit();
+				//Instantiate(pontinho2, r.origin, Quaternion.identity);//Pontinhos na origem
 
-				//Instantiate(pontinho2, r.origin, Quaternion.identity);	
-				
+				//Testar Raycast no raio atual
 				if(Physics.Raycast(r, out h, Mathf.Abs(RAYLENGTH), Wall)){
 					//De global pra local
 					endPoints[i] = new Vector3(Mathf.Cos(-angle),Mathf.Sin(-angle),0) * (h.point.x - transform.position.x) + new Vector3(Mathf.Cos(-angle + Mathf.PI/2),Mathf.Sin(-angle + Mathf.PI/2),0) * (h.point.y - transform.position.y) ;
-					//Instantiate(pontinho, h.point, Quaternion.identity);
+					//Instantiate(pontinho, h.point, Quaternion.identity);//Pontinho na reflexao
 					if(h.collider.gameObject.name == "Prism")
 						h.collider.gameObject.GetComponent<Prism>().React();
 					//Se pegou num espelho, ...
@@ -282,17 +290,19 @@ public class LightCreator : MonoBehaviour {
 		float angle = transform.rotation.eulerAngles.z;
 		angle *= Mathf.PI/180;		
 		
+		//Preparar Ray e RaycastHit pro Raycast
 		r = new Ray(transform.position + transform.right * incidentPoint.x + transform.up * incidentPoint.y , 
 		            newDirection);
 		h = new RaycastHit();
 		
 		//Instantiate(pontinho2, r.origin, Quaternion.identity);
-		//Debug.Log("Ta ao menos entrando na recursao?");
+		//Debug.Log("Raio " + rayIndex);
 
 		if(Physics.Raycast(r, out h, Mathf.Abs(RAYLENGTH), Wall)){
+			//Debug.Log("Acertou Wall");
 			nextPoint = new Vector3(Mathf.Cos(-angle),Mathf.Sin(-angle),0) * (h.point.x - transform.position.x) + new Vector3(Mathf.Cos(-angle + Mathf.PI/2),Mathf.Sin(-angle + Mathf.PI/2),0) * (h.point.y - transform.position.y) ;
-			//Instantiate(pontinho, h.point, Quaternion.identity);
-			if(h.collider.gameObject.tag == "Mirror" && reflectionLevel < 10){
+			//Instantiate(pontinho, h.point, Quaternion.identity);//Pontinho na colisao
+			if(h.collider.gameObject.tag == "Mirror" && reflectionLevel < 15){
 				//Entrar noutra recursao
 				mirrorNormal = new Vector3();
 				foreach(Transform t2 in h.collider.gameObject.GetComponentInChildren<Transform>())
@@ -303,6 +313,7 @@ public class LightCreator : MonoBehaviour {
 				
 			}
 		}else{
+			//Debug.Log("Errou Wall");
 			nextPoint = incidentPoint + newDirection * RAYLENGTH;
 		}
 

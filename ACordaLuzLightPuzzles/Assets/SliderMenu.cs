@@ -38,7 +38,7 @@ public class SliderMenu : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		int i, j;
+		int i;
 		blockButtons = false;
 
 		block1 = new Color(0.2431373f,0.509804f,0.227451f);
@@ -59,7 +59,7 @@ public class SliderMenu : MonoBehaviour {
 		
 		//PlayerPrefs.SetInt("LastSolvedLevel", 10); //Resetar valores
 		lastLevel = PlayerPrefs.GetInt("LastSolvedLevel");
-		lastLevel = 56;//*****
+		//lastLevel = 56;//*****
 		//Debug.Log(lastLevel);
 		if(lastLevel<1){
 			lastLevel = 1;

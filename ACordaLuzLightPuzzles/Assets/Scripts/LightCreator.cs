@@ -77,8 +77,7 @@ public class LightCreator : MonoBehaviour {
 						            Quaternion.Euler(0,0,transform.rotation.eulerAngles.z) * (reflectionPoints[j+1][i] - reflectionPoints[j][i]).normalized);
 					
 							
-						Vector3 spoint = reflectionPoints[j][i];
-						int count = 0;
+						Vector3 spoint = reflectionPoints[j][i];				
 						Vector3 vec3Aux;
 
 						hs = Physics.RaycastAll(r, Mathf.Abs(Vector3.Distance(spoint ,reflectionPoints[j+1][i])), Switch);						

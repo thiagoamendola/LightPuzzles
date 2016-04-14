@@ -51,6 +51,7 @@
      <Compile Include="Assets\MouseFollowingCursor.cs" />
      <Compile Include="Assets\Para Testes\Pontinho.cs" />
      <Compile Include="Assets\ResetTimer.cs" />
+     <Compile Include="Assets\ResolutionController.cs" />
      <Compile Include="Assets\RotateMirror.cs" />
      <Compile Include="Assets\RotateToMouse.cs" />
      <Compile Include="Assets\Scripts\GameLevelManager2.cs" />

@@ -5,6 +5,7 @@ public class TitleScreen : MonoBehaviour {
 
 	public GameObject resetMenu;
 
+
 	public void StartGame(){
 		Application.LoadLevel("Select");
 	}
@@ -18,6 +19,7 @@ public class TitleScreen : MonoBehaviour {
 	}
 
 	public void ResetProgress(){
+		Debug.Log("REsetou!!");
 		PlayerPrefs.SetInt("LastSolvedLevel", 1);
 	}
 

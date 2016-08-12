@@ -38,7 +38,7 @@
 = Corrigir problema no menu de seleção ////////////////////////////
 = Mudar cores das seções de níveis ////////////////////////////////
 = Repegar níveis //////////////////////////////////////////////////
-= Criar mais 20 fases pro jogo das luzes X-5 X-10 X-15 X-20 X-25 X-30 X-35 X-40 X-45 X-50 O-55
+= Criar mais 20 fases pro jogo das luzes X-5 X-10 X-15 X-20 X-25 X-30 X-35 X-40 X-45 X-50 X-55
 = Colocar botão de restart na fase ////////////////////////////////
 = Colocar botão de apagar save ////////////////////////////////////
 = Colocar mensagem de segurança ao apagar save ////////////////////
@@ -52,14 +52,19 @@
 = Corrigir bug da última fase /////////////////////////////////////
 = Corrigir bug da tela de seleção /////////////////////////////////
 = Arrumar level 54 ////////////////////////////////////////////////
-= Dar suporte a várias resoluções
+= Dar suporte a várias resoluções /////////////////////////////////
 
-# Lançar
+# Lançar //////////////////////////////////////////////////////////
 
-= Adicionar drag gostosinho na tela de seleção
-= Colocar botão de refazer nível no momento do término do msm
-= Colocar botão de tirar foto do nível completo
+= Adicionar drag gostosinho na tela de seleção ////////////////////
+= Arrumar posição de aparição dos blocos da tela de seleção ///////
+= Arrumar bug do minidrag na tela de seleção //////////////////////
+= Colocar botão de refazer nível no momento do término do msm /////
+= Colocar botão de tirar foto do nível completo ///////////////////
+	- Colocar ícone de foto
+	- E durante o nível
+= Mexer na arte do espelho pra realçar parte traseira
 = Arrumar bug do level 52
 = Arrumar overlap da xícara
 
-
+= Passar pra inglês

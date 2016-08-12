@@ -11,10 +11,7 @@
   <body class="template">
     <p class="header"><span>Unity WebGL Player | </span>LightPuzzles</p>
     <div class="template-wrap clear">
-    <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="504px" width="896px"></canvas>
-      <div class="logo"></div>
-      <div class="fullscreen"><img src="TemplateData/fullscreen.png" width="38" height="38" alt="Fullscreen" title="Fullscreen" onclick="SetFullscreen(1);" /></div>
-      <div class="title">LightPuzzles</div>
+    <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="504px" width="896px" onclick="window.focus()"></canvas>    
     </div>
     <p class="footer">&laquo; created with <a href="http://unity3d.com/" title="Go to unity3d.com">Unity</a> &raquo;</p>
     <script type='text/javascript'>
@@ -101,5 +98,18 @@ try {
   codeXHR.send(null);
 }
 </script>
+ <script type="text/javascript">
+    window.onload = function() { window.focus(); }
+
+    // prevents key presses from bubbling out to the browser window
+
+    var ignore_keycodes = [37,38,39,40];
+
+    window.addEventListener('keydown', function(e) {
+        if (ignore_keycodes.indexOf(e.keyCode) > -1) {
+            e.preventDefault();
+        }
+    });
+ </script>
   </body>
 </html>

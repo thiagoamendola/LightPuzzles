@@ -29,7 +29,7 @@ public class ResolutionController : MonoBehaviour {
 	void Update () {
 		float proportion = (float)Screen.width/(float)Screen.height;
 		Camera camera = GameObject.Find("Camera").GetComponent<Camera>();
-		if(proportion < 1.51f){
+		/*if(proportion < 1.51f){
 			camera.orthographicSize = HVGAValue;
 		}else if(proportion < 1.62f){
 			camera.orthographicSize = WXGAValue;
@@ -39,7 +39,10 @@ public class ResolutionController : MonoBehaviour {
 			camera.orthographicSize = WSVGAValue;
 		}else{
 			camera.orthographicSize = FWVGAValue;
-		}
+		}*/
+		float horizontalSize = 8.757874f;
+		camera.orthographicSize = horizontalSize / camera.aspect;
+		//Debug.Log(camera.orthographicSize * camera.aspect);		
 
 	}
 

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System;
 
 public class GameLevelManager2 : MonoBehaviour {
 
@@ -13,6 +14,7 @@ public class GameLevelManager2 : MonoBehaviour {
 	public GameObject[] levels;
 	GameObject levelInstance = null;
 	public Text levelText;
+	GameObject UI;
 
 	int level=0;
 	Color block1;
@@ -31,6 +33,8 @@ public class GameLevelManager2 : MonoBehaviour {
 
 		level =  PlayerPrefs.GetInt("OpenLevel");
 		//Debug.Log(level);
+
+		UI = GameObject.Find("Canvas");
 
 		returnButton.SetActive(true);
 		
@@ -116,6 +120,21 @@ public class GameLevelManager2 : MonoBehaviour {
 	public void RestartLevel(){
 		PlayerPrefs.SetInt("OpenLevel", level);
 		Application.LoadLevel("Game");
+	}
+
+	public void TakePhoto(){
+		StartCoroutine("TakingPhoto");
+	}
+
+	IEnumerator TakingPhoto(){
+		UI.SetActive(false);
+		string name = "lightpuzzles_" + System.DateTime.Now.Day + "_" + System.DateTime.Now.Month + "_" + 
+			System.DateTime.Now.Year + "_" + System.DateTime.Now.ToString("HH") + "_" + 
+			System.DateTime.Now.Minute + "_" + System.DateTime.Now.Second;
+		print(name);
+		Application.CaptureScreenshot(name + ".png");
+		yield return null; //wait for a frame
+		UI.SetActive(true);
 	}
 
 	public void Mute(){

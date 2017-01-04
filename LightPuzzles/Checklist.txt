@@ -60,11 +60,14 @@
 = Arrumar posição de aparição dos blocos da tela de seleção ///////
 = Arrumar bug do minidrag na tela de seleção //////////////////////
 = Colocar botão de refazer nível no momento do término do msm /////
-= Colocar botão de tirar foto do nível completo ///////////////////
-	- Colocar ícone de foto
-	- E durante o nível
+= Colocar botão de tirar foto do nível completo XXXXXXXXXXXXXXXXXXX
+	- Colocar ícone de foto XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+	- E durante o nível XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+= Passar pra inglês ///////////////////////////////////////////////
 = Mexer na arte do espelho pra realçar parte traseira
+= Colocar Preto c/Alpha de loading na seleção de fases
+= Colocar animação de WIN ao completar level 
+	(Dar ênfase ao layout fo nível concluído)
 = Arrumar bug do level 52
 = Arrumar overlap da xícara
 
-= Passar pra inglês

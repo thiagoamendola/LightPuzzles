@@ -4,14 +4,15 @@ using System.Collections;
 public class SliderMenu2 : MonoBehaviour {
 
 	int MAXSESSIONS = 10;//11
-
+	float SCREENWIDTH = 17.6f;
+	int LEVELSPERSESSION = 5;
 
 	Vector3 iniClickPos;
 	Vector3 lastMousePos;
 	Vector3 mouseDelta;
-	public float dragProp= .03f;//Proportion
-	public float interpSpeed=0.04f;
-	public float dragFriction=0.7f;
+	public float dragProp= .03f;//Proportion of space dragged by player
+	public float interpSpeed=0.04f;//Amount of speed by which, after movement ceases, menu moves to a valid position
+	public float dragFriction=0.7f;//After drag is released, multiplier that slows movement
 
 	Transform slidingContainer;
 	SpriteRenderer mainStrip;
@@ -42,23 +43,22 @@ public class SliderMenu2 : MonoBehaviour {
 
 		slidingContainer = transform.Find("SlidingContainer");
 		inertialVel = 0;
-		//screen_width = 17.6f
 
 		//Pegar última fase passada	
 		
 		//PlayerPrefs.SetInt("LastSolvedLevel", 10); //Resetar valores
 		lastLevel = PlayerPrefs.GetInt("LastSolvedLevel");
-		lastLevel = 6;//*****
+		//lastLevel = 6;//*****
 		//Debug.Log(lastLevel);
 		if(lastLevel<1){
 			lastLevel = 1;
 		}
-		listIndex = Mathf.Min((lastLevel-1) / 5,MAXSESSIONS);
+		listIndex = Mathf.Min((lastLevel-1) / LEVELSPERSESSION,MAXSESSIONS);
 		
 
 		//Mudar posições dos botões
 		Vector3 slIniPos = slidingContainer.position;
-		slIniPos.x = -17.6f*listIndex;
+		slIniPos.x = -SCREENWIDTH*listIndex;
 		slidingContainer.position = slIniPos;
 
 		//Mudar estados dos botões	
@@ -109,63 +109,63 @@ public class SliderMenu2 : MonoBehaviour {
 		//Debug.Log(-mouseDelta);
 		//Debug.Log(-mouseDelta.x * dragProp);
 		if(Input.GetMouseButtonDown(0)){
-			print ("Just pressed");
+			//print ("Just pressed");
 			iniClickPos = Input.mousePosition;
 		}else if (Input.GetMouseButton(0)){
   			if(!blockButtons && Vector3.Distance(iniClickPos, Input.mousePosition)>3f){
 				//Dragar todo mundo relativo ao delta do mouse				
-				print ("DRAAAAAAAAG");
+				//print ("DRAAAAAAAAG");
 				Vector3 dragMove = slidingContainer.position;
 				dragMove.x -= mouseDelta.x * dragProp;
-				dragMove.x = Mathf.Clamp(dragMove.x, -176f, 0f);
+				dragMove.x = Mathf.Clamp(dragMove.x, -SCREENWIDTH*MAXSESSIONS, 0f);
 				slidingContainer.position = dragMove;	  			
 	  			
-	  			
+	  			listIndex = Mathf.RoundToInt(-slidingContainer.position.x/SCREENWIDTH);
+	  			StartCoroutine("InterpStripColor");			
 			}
 		}else if (Input.GetMouseButtonUp(0)){
  			if(Vector3.Distance(iniClickPos, Input.mousePosition)>3f){//Nao eh click 				
- 				print ("Released");
+ 				//print ("Released");
  				inertialVel = mouseDelta.x * dragProp; 				
  				if(inertialVel!=0){
  					blockButtons = true;
  				}else{
  					//Fit listIndex
-					listIndex = Mathf.RoundToInt(-slidingContainer.position.x/17.6f);
+					listIndex = Mathf.RoundToInt(-slidingContainer.position.x/SCREENWIDTH);
  					//Slide to nearest section
 					previousSlPos = slidingContainer.position;
 					nextSlPos = previousSlPos;
-					nextSlPos.x = -17.6f*listIndex;
+					nextSlPos.x = -SCREENWIDTH*listIndex;
 			 		StartCoroutine("Slide");
  				}
 	 		}else{
-	 			print ("Clicked");
+	 			//print ("Clicked");
 	 		}
 	 	}
-
 
  		lastMousePos = Input.mousePosition;
 	}
 
 	//Move sliding container
 	public void MoveByInertia(float deltaTime){
-		print("In inertia: " + inertialVel.ToString());
+		//print("In inertia: " + inertialVel.ToString());
 		Vector3 dragMove = slidingContainer.position;
 		dragMove.x -= inertialVel;
 		
 		//Fit listIndex
-		listIndex = Mathf.RoundToInt(-dragMove.x/17.6f);
+		listIndex = Mathf.RoundToInt(-dragMove.x/SCREENWIDTH);
 
 		inertialVel *= dragFriction;		
-		if(Mathf.Clamp(dragMove.x, -176f, 0f) != dragMove.x || //Hit a wall. Stop
+		if(Mathf.Clamp(dragMove.x, -SCREENWIDTH*MAXSESSIONS, 0f) != dragMove.x || //Hit a wall. Stop
 			Mathf.Abs(inertialVel)<=0.1f){ //Stopped by drag force
 			//Stop			
-			dragMove.x = Mathf.Clamp(dragMove.x, -176f, 0f);
+			dragMove.x = Mathf.Clamp(dragMove.x, -SCREENWIDTH*MAXSESSIONS, 0f);
 			inertialVel = 0;
 			
 			//Slide to nearest section
 			previousSlPos = slidingContainer.position;
 			nextSlPos = previousSlPos;
-			nextSlPos.x = -17.6f*listIndex;
+			nextSlPos.x = -SCREENWIDTH*listIndex;
 	 		StartCoroutine("Slide");	
 		}
 
@@ -181,7 +181,7 @@ public class SliderMenu2 : MonoBehaviour {
 			// Mover container		
 			previousSlPos = slidingContainer.position;
 			nextSlPos = previousSlPos;
-			nextSlPos.x = -17.6f*listIndex;
+			nextSlPos.x = -SCREENWIDTH*listIndex;
 	 		StartCoroutine("Slide");	
 	 		StartCoroutine("InterpStripColor");			
 		}
@@ -194,7 +194,7 @@ public class SliderMenu2 : MonoBehaviour {
 			// Mover container
 			previousSlPos = slidingContainer.position;
 			nextSlPos = previousSlPos;
-			nextSlPos.x = -17.6f*listIndex;
+			nextSlPos.x = -SCREENWIDTH*listIndex;
 	 		StartCoroutine("Slide");
 	 		StartCoroutine("InterpStripColor");
 		}
@@ -202,7 +202,7 @@ public class SliderMenu2 : MonoBehaviour {
 
 	private IEnumerator Slide(){
 		float interp = 0, interpH = 0;
-		print("Sliding");
+		//print("Sliding");
 
 		while(interpH < 1){
 			//Interpolar strips e botões
@@ -215,6 +215,7 @@ public class SliderMenu2 : MonoBehaviour {
 	}
 
 	private IEnumerator InterpStripColor(){
+		print("InterpColor START");
 		float interp = 0, interpH = 0;
 
 		//Ver para qual cor mudar
@@ -233,13 +234,15 @@ public class SliderMenu2 : MonoBehaviour {
 		if(nextColor != currentColor){
 			while(interp < 1){
 				//Debug.Log("Mudando cor " + interp);
-				interpH += interpSpeed;
+				//Debug.Log("Mudando interp -> " + interpH);
+				interpH = Mathf.Clamp(interpH + interpSpeed, 0f, 1f);
 				interp = Hermite(0f,1f,interpH);
 				mainStrip.color = Color.Lerp(currentColor, nextColor, interp);
 				btnStrip.color = Color.Lerp(currentColor, nextColor, interp);
 				yield return null; //wait for a frame
 			}
 		}
+		print("InterpColor END");
 	}
 
 

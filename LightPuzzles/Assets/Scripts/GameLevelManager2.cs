@@ -59,10 +59,39 @@ public class GameLevelManager2 : MonoBehaviour {
 		//Salvar progresso
 		//Debug.Log(" --> Max level atu = " + PlayerPrefs.GetInt("LastSolvedLevel") + " and " + (level));
 		if(level+2 > PlayerPrefs.GetInt("LastSolvedLevel")){
-			Debug.Log("  #> mUDOU PARA " + (level+2));
+			//Debug.Log("  #> mUDOU PARA " + (level+2));
 			PlayerPrefs.SetInt("LastSolvedLevel", level+2);
 		}
 
+		//Initiate win animation
+		StartCoroutine("WinLevel");
+	}
+	private IEnumerator WinLevel(){
+		//Play sound
+		AudioSource audioSource = GetComponent<AudioSource>();
+		audioSource.Play();
+
+		//Animate white
+		float interp = 0;
+		float vel = 2f;
+		SpriteRenderer sr = transform.Find("WinEffect").GetComponent<SpriteRenderer>();
+		Color w = Color.white;
+		w.a = .2f;
+		while(interp<1){
+			interp=Mathf.Min(interp+vel*Time.deltaTime,1);		
+			sr.color = Color.Lerp(Color.clear, w, interp);
+			yield return null;
+		}
+		while(interp>0){
+			interp=Mathf.Max(interp-vel*Time.deltaTime,0);		
+			sr.color = Color.Lerp(Color.clear, w, interp);
+			yield return null;
+		}
+
+		//Wait for end of animation
+		yield return new WaitForSeconds(audioSource.clip.length+.65f-1);
+
+		//Show end slide
 		if(level < levels.Length - 1)
 			nextLevelMenu.SlideIn();
 		else
@@ -127,14 +156,13 @@ public class GameLevelManager2 : MonoBehaviour {
 	}
 
 	public void SetLanguage(){
-		switch(Application.systemLanguage){
-			case SystemLanguage.English:
-				lvl = "Level ";
-				ReplaceText[] gs = GameObject.FindObjectsOfType(typeof(ReplaceText)) as ReplaceText[];
-				foreach(ReplaceText g in gs){
-					g.ChangeToEng();
-				}
-				break;
+		if(Application.systemLanguage == SystemLanguage.English ||
+		Application.platform == RuntimePlatform.WebGLPlayer){
+			lvl = "Level ";
+			ReplaceText[] gs = GameObject.FindObjectsOfType(typeof(ReplaceText)) as ReplaceText[];
+			foreach(ReplaceText g in gs){
+				g.ChangeToEng();
+			}
 		}
 	}
 

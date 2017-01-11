@@ -32,7 +32,7 @@ public class LevelManager : MonoBehaviour {
 								
 			if(finished){
 				//Terminar o jogo
-				Debug.Log("Tu ganho!!!");
+				//Debug.Log("Tu ganho!!!");
 				gameOver = true;
 				foreach(MovableObject obj in GetComponentsInChildren<MovableObject>()){
 					obj.SetDraggable(false);

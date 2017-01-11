@@ -9,10 +9,9 @@ public class TitleScreen : MonoBehaviour {
 
 	void Start(){
 		Debug.Log(Application.systemLanguage);
-		switch(Application.systemLanguage){
-			case SystemLanguage.English:
-				TranslateEnglish();
-				break;
+		if(Application.systemLanguage == SystemLanguage.English ||
+		Application.platform == RuntimePlatform.WebGLPlayer){
+			TranslateEnglish();
 		}
 	}
 

@@ -215,7 +215,7 @@ public class SliderMenu2 : MonoBehaviour {
 	}
 
 	private IEnumerator InterpStripColor(){
-		print("InterpColor START");
+		//print("InterpColor START");
 		float interp = 0, interpH = 0;
 
 		//Ver para qual cor mudar
@@ -242,7 +242,7 @@ public class SliderMenu2 : MonoBehaviour {
 				yield return null; //wait for a frame
 			}
 		}
-		print("InterpColor END");
+		//print("InterpColor END");
 	}
 
 

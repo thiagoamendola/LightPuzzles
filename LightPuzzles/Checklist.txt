@@ -64,10 +64,22 @@
 	- Colocar ícone de foto XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 	- E durante o nível XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 = Passar pra inglês ///////////////////////////////////////////////
-= Mexer na arte do espelho pra realçar parte traseira
-= Colocar Preto c/Alpha de loading na seleção de fases
-= Colocar animação de WIN ao completar level 
-	(Dar ênfase ao layout fo nível concluído)
-= Arrumar bug do level 52
-= Arrumar overlap da xícara
+= Mexer na arte do espelho pra realçar parte traseira /////////////
+= Colocar Preto c/Alpha de loading na seleção de fases ////////////
+= Colocar animação de WIN ao completar level //////////////////////
+	(Dar ênfase ao layout no nível concluído) /////////////////////
 
+# Buildar versão Web
+
+# Buildar nova versão Standalone
+# Buildar versão Standalone inglês (para artes de divulgação)
+
+= Implementar ColorPuzzles 
+
+= Arrumar bug do level 52 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+% Colocar novas músicas (Felipe)
+% Implementar mais 5 ou 10 fases (André)
+
+
+# Lançar versão final

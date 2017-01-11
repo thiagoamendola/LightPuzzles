@@ -43,6 +43,7 @@ public class LevelSelector : MonoBehaviour {
 	}
 
 	public void LoadLevel(){
+		GameObject.Find("BG").transform.Find("Loading").gameObject.SetActive(true);
 		PlayerPrefs.SetInt("OpenLevel", level-1);
 		Application.LoadLevel("Game");
 	}

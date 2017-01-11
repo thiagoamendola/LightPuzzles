@@ -47,9 +47,9 @@
   <ItemGroup>
      <Compile Include="Assets\Button.cs" />
      <Compile Include="Assets\Credits.cs" />
+     <Compile Include="Assets\ForTesting\Pontinho.cs" />
      <Compile Include="Assets\LevelSelector.cs" />
      <Compile Include="Assets\MouseFollowingCursor.cs" />
-     <Compile Include="Assets\Para Testes\Pontinho.cs" />
      <Compile Include="Assets\ReplaceText.cs" />
      <Compile Include="Assets\ResetTimer.cs" />
      <Compile Include="Assets\ResolutionController.cs" />
